@@ -1,5 +1,6 @@
 package org.example.telegrambot.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.telegrambot.service.TelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -9,6 +10,8 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+
+@Slf4j
 @Component
 public class BotInitializer {
     @Autowired
@@ -19,13 +22,12 @@ public class BotInitializer {
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(bot);
-            System.out.println("✅ Telegram Bot successfully started!");
+            log.info("✅ Telegram Bot successfully started!");
         } catch (TelegramApiException e) {
             if (e.getMessage() != null && e.getMessage().contains("404")) {
-                System.out.println("✅ Telegram Bot started (webhook not found, this is normal)");
+                log.error("✅ Telegram Bot started (webhook not found, this is normal)");
             } else {
-                System.err.println("❌ Failed to start Telegram Bot: " + e.getMessage());
-                e.printStackTrace();
+                log.error("❌ Failed to start Telegram Bot: {}", e.getMessage());
             }
         }
     }

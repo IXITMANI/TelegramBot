@@ -16,6 +16,6 @@ public class StartCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Запуск ботика <3";
+        return "/start - Запуск ботика <3";
     }
 }
